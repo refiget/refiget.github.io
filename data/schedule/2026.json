@@ -1,1 +1,12 @@
-[]
+[
+  {
+    "date": "2026-10-17",
+    "title": "最近在看",
+    "subtitle": "Quantum circuit-based learning models: bridging quantum computing and machine learning"
+  },
+  {
+    "date": "2026-10-17",
+    "title": "最近在学",
+    "subtitle": "CS61B"
+  }
+]

@@ -23,11 +23,11 @@ function createScheduleEntry(item) {
   title.textContent = item.title;
   entry.append(title);
 
-  if (item.category) {
-    const category = document.createElement("span");
-    category.className = "schedule-category";
-    category.textContent = item.category;
-    title.after(category);
+  if (item.subtitle) {
+    const subtitle = document.createElement("p");
+    subtitle.className = "schedule-subtitle";
+    subtitle.textContent = item.subtitle;
+    entry.append(subtitle);
   }
 
   if (item.content) {

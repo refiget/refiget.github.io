@@ -55,7 +55,7 @@ body { background: #f7f5f1; }
 .schedule-entry { padding: 20px 0; border-bottom: 1px solid #ded8d0; }
 .schedule-entry time { color: #928a80; font-size: .8rem; }
 .schedule-entry h2 { margin: 5px 0; font-size: 1.1rem; font-weight: 500; }
-.schedule-category { display: block; margin: -2px 0 4px; color: #8a715c; font-size: .78rem; }
+.schedule-entry .schedule-subtitle { margin: 0 0 5px; color: #6e6962; font-size: .92rem; line-height: 1.65; }
 .schedule-entry p { margin: 0; color: #6e6962; font-size: .9rem; line-height: 1.8; }
 .schedule-group { margin-top: 30px; }
 .schedule-page { padding: 38px 0 56px; }
