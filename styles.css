@@ -34,6 +34,11 @@ body { background: #f7f5f1; }
 .category-link { display: flex; justify-content: space-between; color: #625d56; font-size: .88rem; text-decoration: none; }
 .category-link span { color: #928a80; }
 .category-link:hover { color: #76563f; text-decoration: underline; text-underline-offset: 3px; }
+.category-list { padding: 0; margin: 0; list-style: none; }
+.category-list li + li { margin-top: 8px; }
+.category-list li > a, .category-list li > span { display: flex; justify-content: space-between; color: #625d56; font-size: .88rem; text-decoration: none; }
+.category-list li > a:hover { color: #76563f; text-decoration: underline; text-underline-offset: 3px; }
+.category-list small { color: #928a80; font: inherit; }
 #category-algorithms:target { outline: 1px solid #c7b7a5; outline-offset: 10px; }
 .sidebar { display: flex; flex-direction: column; gap: 19px; }
 .sidebar-card { border-color: #ddd7ce; border-radius: 0; background: transparent; box-shadow: none; }
