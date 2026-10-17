@@ -1,77 +1,17 @@
-:root {
-  color-scheme: light;
-  --paper: #faf9f6;
-  --ink: #292b29;
-  --muted: #777a74;
-  --line: #e6e3dc;
-  --accent: #a6533d;
-  font-family: Georgia, "Noto Serif SC", "Songti SC", serif;
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-}
-
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
-body { margin: 0; background: var(--paper); color: var(--ink); }
-a { color: inherit; text-decoration: none; }
-a:hover { color: var(--accent); }
-.site { width: min(100% - 48px, 1000px); margin: 0 auto; }
-.site-header { padding-top: 47px; }
-.masthead { padding-bottom: 29px; text-align: center; }
-.site-title { display: inline-block; font-size: 34px; line-height: 1.3; letter-spacing: .025em; font-weight: 600; }
-.site-description { margin: 9px 0 0; color: var(--muted); font-size: 13px; letter-spacing: .12em; }
-.main-nav { display: flex; justify-content: center; gap: 34px; padding: 14px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
-.main-nav a { color: #656862; font-size: 13px; }
-.main-nav a:hover, .main-nav a.active { color: var(--accent); }
-.main-nav a.active { position: relative; }
-.main-nav a.active:after { position: absolute; right: 0; bottom: -15px; left: 0; height: 2px; background: var(--accent); content: ""; }
-.layout { display: grid; grid-template-columns: minmax(0, 1fr) 235px; gap: 70px; padding: 55px 0 78px; }
-.page-heading { display: flex; align-items: end; justify-content: space-between; padding-bottom: 19px; border-bottom: 1px solid var(--line); }
-.overline { margin: 0 0 8px; color: #9a9a91; font: 10px/1.4 Arial, sans-serif; letter-spacing: .17em; }
-.page-heading h1 { margin: 0; font-size: 26px; font-weight: 500; letter-spacing: .04em; }
-.article-count { margin: 0 0 3px; color: #999a93; font-size: 11px; }
-.post-preview { padding: 27px 0 33px; }
-.post-meta { display: flex; align-items: center; gap: 9px; margin: 0 0 13px; color: #92938c; font: 11px/1.6 Arial, sans-serif; }
-.post-meta a { color: var(--accent); }
-.post-preview h2 { margin: 0 0 12px; font-size: 21px; line-height: 1.65; font-weight: 500; letter-spacing: .015em; }
-.post-excerpt { margin: 0; color: #666962; font-size: 14px; line-height: 2; }
-.read-more { display: inline-block; margin-top: 17px; color: var(--accent); font-size: 12px; }
-.read-more span { margin-left: 3px; }
-.post-separator { display: flex; align-items: center; gap: 14px; color: #c7c3b9; font-size: 13px; }
-.post-separator:before, .post-separator:after { height: 1px; flex: 1; background: var(--line); content: ""; }
-.more-coming { margin: 22px 0 0; color: #999a93; text-align: center; font-size: 12px; }
-.sidebar { padding-top: 3px; }
-.side-section { margin-bottom: 34px; }
-.side-section h2 { margin: 0 0 14px; padding-bottom: 9px; border-bottom: 1px solid var(--line); font-size: 15px; font-weight: 500; }
-.side-section > p { margin: 0; color: #777a74; font-size: 12px; line-height: 1.9; }
-.side-list { padding: 0; margin: 0; list-style: none; }
-.side-list li + li { border-top: 1px dotted #e2dfd8; }
-.side-list a { display: flex; justify-content: space-between; padding: 9px 0; color: #656862; font-size: 12px; }
-.side-list a span { color: #a7a79f; font: 10px Arial, sans-serif; }
-.side-note { position: relative; margin-top: 45px; padding: 18px 16px 17px; background: #f1eee7; }
-.note-mark { position: absolute; top: 5px; left: 13px; color: #c5b5a4; font: 34px Georgia, serif; }
-.side-note p { margin: 18px 0 0; color: #77746c; font-size: 12px; line-height: 1.9; }
-.site-footer { display: flex; justify-content: space-between; align-items: center; padding: 19px 0 22px; border-top: 1px solid var(--line); color: #92938c; font-size: 10px; }
-.site-footer p { margin: 0; }
-.site-footer p span { padding: 0 5px; }
-.site-footer a { color: #85877f; }
-
-@media (max-width: 720px) {
-  .site { width: min(100% - 36px, 560px); }
-  .site-header { padding-top: 31px; }
-  .masthead { padding-bottom: 23px; }
-  .site-title { font-size: 27px; }
-  .site-description { font-size: 11px; letter-spacing: .08em; }
-  .main-nav { gap: clamp(14px, 5vw, 27px); padding: 13px 0; }
-  .main-nav a { font-size: 12px; }
-  .layout { grid-template-columns: 1fr; gap: 47px; padding: 38px 0 54px; }
-  .page-heading h1 { font-size: 23px; }
-  .post-preview h2 { font-size: 19px; }
-  .post-excerpt { font-size: 13px; }
-  .sidebar { display: grid; grid-template-columns: 1fr 1fr; gap: 9px 22px; }
-  .side-section { margin-bottom: 16px; }
-  .side-note { display: none; }
-  .site-footer { align-items: start; gap: 8px; flex-direction: column; line-height: 1.7; }
+body {
+  max-width: 760px;
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  flex-direction: column;
+  color: #222;
+  background: #fff;
+  font: 16px/1.8 Georgia, "Songti SC", serif;
 }
-
-@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+header { padding: 28px 0 14px; border-bottom: 1px solid #ddd; }
+header a { color: inherit; font-size: 20px; text-decoration: none; }
+main { flex: 1; padding: 70px 0; }
+main p { color: #777; }
+footer { padding: 14px 0 22px; border-top: 1px solid #ddd; color: #888; font-size: 13px; }
