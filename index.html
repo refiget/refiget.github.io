@@ -3,41 +3,61 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#fff" />
-    <meta name="description" content="Refiget 的技术博客。" />
-    <title>Refiget 的技术博客</title>
+    <meta name="theme-color" content="#f7f5f1" />
+    <meta name="description" content="Refiget 的个人主页。" />
+    <title>Refiget</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.8/dist/journal/bootstrap.min.css" />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <header class="site-header">
-      <div class="masthead">
-        <a class="site-title" href="index.html">Refiget</a>
-        <span class="site-subtitle">技术博客</span>
+    <div class="container blog-shell d-flex flex-column min-vh-100">
+      <header class="site-header">
+        <div class="masthead">
+          <div>
+            <a class="site-title" href="index.html">Refiget</a>
+          </div>
+        </div>
+        <nav class="site-nav" aria-label="主导航">
+          <a class="current" href="index.html">首页</a>
+          <a href="#articles">文章</a>
+          <a href="#categories">分类</a>
+          <a href="#archives">归档</a>
+          <a href="#about">关于</a>
+        </nav>
+      </header>
+      <div class="row g-5 page-layout flex-grow-1">
+        <main class="col-lg-8 col-md-8" id="articles">
+          <div class="section-heading d-flex justify-content-between align-items-end">
+            <div>
+              <p class="section-kicker mb-1">NOTEBOOK</p>
+              <h1 class="h3 mb-0">文章</h1>
+            </div>
+          </div>
+          <article class="post-preview">
+            <p class="post-category">算法</p>
+            <h2><a href="posts/4MedianOfTwoSortedArrays.html">4. Median of Two Sorted Arrays</a></h2>
+            <p>将问题转化为查找第 k 小的元素，通过二分调整两个有序数组的切分位置，并处理边界情况。</p>
+            <a class="read-more" href="posts/4MedianOfTwoSortedArrays.html">阅读全文 <span aria-hidden="true">→</span></a>
+          </article>
+        </main>
+        <aside class="col-lg-4 col-md-4 sidebar">
+          <section class="card sidebar-card" id="categories">
+            <div class="card-header">分类</div>
+            <div class="card-body"><a class="category-link" href="#articles">算法 <span>1</span></a></div>
+          </section>
+          <section class="card sidebar-card" id="archives">
+            <div class="card-header">归档</div>
+            <div class="card-body sidebar-empty"></div>
+          </section>
+          <section class="card sidebar-card" id="about">
+            <div class="card-header">关于</div>
+            <div class="card-body sidebar-empty"></div>
+          </section>
+        </aside>
       </div>
-      <nav aria-label="主导航">
-        <a href="index.html">首页</a>
-        <a href="#categories">分类</a>
-        <a href="#archives">归档</a>
-        <a href="#about">关于</a>
-      </nav>
-    </header>
-    <div class="layout">
-      <main id="articles">
-        <h1>文章</h1>
-        <p class="empty-state">更新中</p>
-      </main>
-      <aside>
-        <section id="categories">
-          <h2>分类</h2>
-        </section>
-        <section id="archives">
-          <h2>归档</h2>
-        </section>
-        <section id="about">
-          <h2>关于</h2>
-        </section>
-      </aside>
+      <footer class="site-footer d-flex justify-content-between align-items-center">
+        <span>© Refiget</span>
+      </footer>
     </div>
-    <footer>© Refiget</footer>
   </body>
 </html>

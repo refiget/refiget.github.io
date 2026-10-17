@@ -1,33 +1,51 @@
-* { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
-body {
-  width: min(100% - 48px, 900px);
-  min-height: 100vh;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  color: #292929;
-  background: #fff;
-  font: 15px/1.8 Georgia, "Songti SC", serif;
+:root {
+  --bs-body-bg: #f7f5f1;
+  --bs-body-color: #35322e;
+  --bs-primary: #78563e;
+  --bs-primary-rgb: 120, 86, 62;
+  --bs-link-color: #76563f;
+  --bs-link-hover-color: #4e392b;
 }
-a { color: inherit; text-decoration: none; }
-a:hover { color: #865c42; }
-.site-header { padding-top: 40px; }
-.masthead { display: flex; align-items: baseline; gap: 14px; padding-bottom: 21px; }
-.site-title { font-size: 27px; font-weight: 600; }
-.site-subtitle { color: #888; font-size: 13px; }
-nav { display: flex; gap: 25px; padding: 10px 0; border-top: 1px solid #ddd; border-bottom: 1px solid #ddd; }
-nav a { color: #555; font-size: 13px; }
-.layout { flex: 1; display: grid; grid-template-columns: minmax(0, 1fr) 220px; gap: 65px; padding: 42px 0 64px; }
-main h1 { margin: 0; padding-bottom: 12px; border-bottom: 1px solid #ddd; font-size: 21px; font-weight: 500; }
-.empty-state { margin-top: 27px; color: #888; font-size: 13px; }
-aside section { min-height: 74px; margin-bottom: 20px; }
-aside h2 { margin: 0; padding-bottom: 8px; border-bottom: 1px solid #ddd; font-size: 15px; font-weight: 500; }
-footer { padding: 13px 0 20px; border-top: 1px solid #ddd; color: #888; font-size: 12px; }
-@media (max-width: 640px) {
-  body { width: min(100% - 36px, 520px); }
-  .site-header { padding-top: 28px; }
-  .layout { grid-template-columns: 1fr; gap: 38px; padding: 31px 0 42px; }
-  aside { display: grid; grid-template-columns: 1fr 1fr; gap: 0 20px; }
-  aside section:last-child { grid-column: 1 / -1; }
+
+body { background: #f7f5f1; }
+.blog-shell { max-width: 1060px; }
+.site-header { padding-top: 46px; }
+.masthead { display: flex; justify-content: space-between; align-items: center; padding: 0 0 25px; }
+.site-title { color: #332e29; font-size: 2rem; font-weight: 600; text-decoration: none; letter-spacing: .015em; }
+.site-title:hover { color: #76563f; }
+.site-nav { display: flex; gap: 0; border-top: 1px solid #d9d3ca; border-bottom: 1px solid #d9d3ca; }
+.site-nav a { padding: 11px 18px; color: #625d56; font-size: .9rem; text-decoration: none; }
+.site-nav a:first-child { padding-left: 0; }
+.site-nav a:hover, .site-nav a.current { color: #76563f; }
+.page-layout { padding-top: 46px; padding-bottom: 56px; }
+.section-heading { min-height: 51px; padding-bottom: 15px; border-bottom: 1px solid #d9d3ca; }
+.section-kicker { color: #928a80; font: .65rem/1.4 Arial, sans-serif; letter-spacing: .16em; }
+.section-heading h1 { color: #39342f; font-size: 1.35rem; }
+.post-preview { padding: 25px 0 30px; border-bottom: 1px solid #ded8d0; }
+.post-category { margin: 0 0 8px; color: #8a715c; font-size: .78rem; }
+.post-preview h2 { margin: 0 0 10px; font-size: 1.35rem; font-weight: 500; }
+.post-preview h2 a { color: #39342f; text-decoration: none; }
+.post-preview h2 a:hover { color: #76563f; }
+.post-preview > p:not(.post-category) { max-width: 650px; margin-bottom: 12px; color: #6e6962; font-size: .93rem; line-height: 1.9; }
+.read-more { color: #76563f; font-size: .85rem; text-decoration: none; }
+.read-more span { margin-left: 3px; }
+.category-link { display: flex; justify-content: space-between; color: #625d56; font-size: .88rem; text-decoration: none; }
+.category-link span { color: #928a80; }
+.sidebar { display: flex; flex-direction: column; gap: 19px; }
+.sidebar-card { border-color: #ddd7ce; border-radius: 0; background: transparent; box-shadow: none; }
+.sidebar-card .card-header { padding: 10px 14px; border-bottom-color: #ddd7ce; border-radius: 0; background: #f0ede7; color: #49433d; font-size: .95rem; }
+.sidebar-card .card-body { min-height: 47px; }
+.site-footer { min-height: 52px; border-top: 1px solid #d9d3ca; color: #888178; font-size: .8rem; }
+
+@media (max-width: 767.98px) {
+  .site-header { padding-top: 27px; }
+  .masthead { padding-bottom: 19px; }
+  .site-title { font-size: 1.7rem; }
+  .site-nav { overflow-x: auto; }
+  .site-nav a { padding: 10px 13px; white-space: nowrap; }
+  .site-nav a:first-child { padding-left: 0; }
+  .page-layout { padding-top: 31px; gap: 28px !important; }
+  .sidebar { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+  .sidebar-card:last-child { grid-column: 1 / -1; }
+  .site-footer { min-height: 48px; }
 }

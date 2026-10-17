@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f7f5f1" />
+    <title>4. Median of Two Sorted Arrays — Refiget</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.8/dist/journal/bootstrap.min.css" />
+    <link rel="stylesheet" href="../styles.css" />
+    <link rel="stylesheet" href="post.css" />
+  </head>
+  <body>
+    <div class="container blog-shell d-flex flex-column min-vh-100">
+      <header class="site-header">
+        <div class="masthead">
+          <div><a class="site-title" href="../index.html">Refiget</a></div>
+        </div>
+        <nav class="site-nav" aria-label="主导航">
+          <a href="../index.html">首页</a>
+          <a class="current" href="../index.html#articles">文章</a>
+          <a href="../index.html#categories">分类</a>
+          <a href="../index.html#archives">归档</a>
+          <a href="../index.html#about">关于</a>
+        </nav>
+      </header>
+      <main class="article-content">
+        <a class="back-link" href="../index.html#articles">← 返回文章列表</a>
+        <article>
+          <p class="article-category">算法</p>
+          <h1>4. Median of Two Sorted Arrays</h1>
+          <div class="article-body">
+<blockquote>
+<p><strong>4. Median of Two Sorted Arrays</strong></p>
+<p>给定两个大小分别为 <code>m</code> 和 <code>n</code> 的正序（从小到大）数组 <code>nums1</code> 和 <code>nums2</code>。请找出并返回这两个正序数组的中位数。</p>
+<p>算法的时间复杂度应该为 <code>O(log(m + n))</code>。</p>
+<p>示例 1：</p>
+<ul>
+<li>输入：<code>nums1 = [1, 3]</code>，<code>nums2 = [2]</code></li>
+<li>输出：<code>2.00000</code></li>
+<li>解释：合并数组为 <code>[1, 2, 3]</code>，中位数为 <code>2</code>。</li>
+</ul>
+<p>示例 2：</p>
+<ul>
+<li>输入：<code>nums1 = [1, 2]</code>，<code>nums2 = [3, 4]</code></li>
+<li>输出：<code>2.50000</code></li>
+<li>解释：合并数组为 <code>[1, 2, 3, 4]</code>，中位数为 <code>(2 + 3) / 2 = 2.5</code>。</li>
+</ul>
+</blockquote>
+<h2 id="转化为查找第-k-小的元素">转化为查找第 <code>k</code> 小的元素</h2>
+<p>我们可以把问题转化为：给定两个升序数组 <code>A</code> 和 <code>B</code>（这里假设元素都是自然数），找到合并后第 <code>k</code> 小的元素。这里的 <code>k</code> 是从 <code>1</code> 开始计数的序号。</p>
+<p>因为数组都是升序的，较小的元素会排在左边。比如 <code>A</code> 的长度是 <code>3</code>，<code>B</code> 的长度是 <code>4</code>，总长度是 <code>7</code>。假设我们需要找到第 <code>4</code> 小的元素，就把最小的 <code>4</code> 个元素分到左边：从 <code>A</code> 中取 <code>i</code> 个，从 <code>B</code> 中取 <code>j</code> 个，使得 <code>i + j = 4</code>。这样，左边一共有 <code>4</code> 个元素，第 <code>4</code> 小的元素就是左边最大的元素，也就是 <code>A[i - 1]</code> 和 <code>B[j - 1]</code> 中较大的一个。</p>
+<p>因为 <code>i + j = k</code>，我们只需要确定 <code>i</code>，就能得到 <code>j = k - i</code>。接下来的问题就是如何保证选择的 <code>i</code> 合法。</p>
+<p>因为我们是通过选择 <code>i</code> 来切分数组，所以 <code>i</code> 可能太大，也可能太小。</p>
+<p>什么时候 <code>i</code> 会太小呢？<code>i</code> 太小说明从 <code>A</code> 中取的元素不够多。假设 <code>A = [1, 2, 3]</code>，我们只取了 <code>1</code> 和 <code>2</code>，也就是 <code>i = 2</code>，但实际上还需要取 <code>3</code>。这说明没有取到的 <code>3</code> 仍然属于最小的前 <code>k</code> 个元素。为什么会把 <code>i</code> 取小呢？因为我们从 <code>B</code> 中相对多取了一个元素。此时，如果 <code>B[j - 1] &gt; A[i]</code>，就说明 <code>B</code> 中左边最大的元素，比 <code>A</code> 中左边之后的第一个元素还大。我们应该少取一个 <code>B</code> 中的元素，改为多取一个 <code>A</code> 中的元素，所以 <code>i</code> 选小了。</p>
+<p>那 <code>i</code> 选大的情况，就是选小情况的对称。如果 <code>A[i - 1] &gt; B[j]</code>，说明 <code>A</code> 中左边最大的元素，比 <code>B</code> 中左边之后的第一个元素还大，因此 <code>i</code> 选大了。</p>
+<h2 id="用二分查找调整切分位置">用二分查找调整切分位置</h2>
+<p>接下来我们讨论如何调整 <code>i</code> 的选择。</p>
+<p>相信很多人入门编程时都写过猜数字游戏：猜 <code>0</code> 到 <code>100</code> 之间的整数。猜对了就胜利；猜大了就返回“too large”，反之则返回“too small”。一个好的猜法是先猜 <code>50</code>，然后根据回答，在 <code>0</code> 到 <code>49</code> 或者 <code>51</code> 到 <code>100</code> 之间继续猜。这里可以抽象出这样一个思路：</p>
+<pre class="python"><code>求解区间：[0, 100]
+if answer == secret_number:
+    print(&quot;WIN!&quot;)
+elif answer &gt; secret_number:
+    调整求解区间上界
+else:
+    调整求解区间下界</code></pre>
+<p>用数学的术语来说，我们的迭代过程是在不断缩小一个闭区间，最后找到符合条件的位置。</p>
+<h3 id="确定搜索范围">确定搜索范围</h3>
+<p>基于以上讨论，我们需要找到 <code>i</code> 的搜索范围。</p>
+<p>首先，<code>i</code> 表示从 <code>A</code> 中取出的元素个数，所以 <code>0 &lt;= i &lt;= m</code>，其中 <code>m</code> 是 <code>A</code> 的长度。<code>i</code> 等于 <code>0</code> 表示一个元素也不取。同时，<code>j</code> 表示从 <code>B</code> 中取出的元素个数，所以 <code>0 &lt;= j &lt;= n</code>，其中 <code>n</code> 是 <code>B</code> 的长度。又因为 <code>j = k - i</code>，所以 <code>0 &lt;= k - i &lt;= n</code>。结合 <code>0 &lt;= i &lt;= m</code>，得到 <code>i</code> 的搜索范围：</p>
+<pre class="text"><code>left  = max(0, k - n)
+right = min(k, m)</code></pre>
+<p>这里的 <code>k</code> 是第 <code>k</code> 小的序号，同时也是需要放在左边的元素个数。两者都是从 <code>1</code> 开始计数的序号和元素数量；而数组下标从 <code>0</code> 开始，所以左边最后一个元素的下标是 <code>i - 1</code> 或 <code>j - 1</code>。</p>
+<p>现在我们找到了合法的切分位置。第 <code>k</code> 小的元素就是 <code>A[i - 1]</code> 和 <code>B[j - 1]</code> 中较大的一个。</p>
+<h3 id="根据切分位置调整搜索范围">根据切分位置调整搜索范围</h3>
+<p>现在整理代码：</p>
+<pre class="python"><code># 1. 设置搜索范围
+left = max(0, k - len(B))
+right = min(k, len(A))
+
+# 2. 二分查找
+while left &lt;= right:
+    i = (left + right) // 2
+    j = k - i
+
+    # i 太小
+    if B[j - 1] &gt; A[i]:
+        left = i + 1
+    # i 太大
+    elif A[i - 1] &gt; B[j]:
+        right = i - 1
+    # 找到了满足条件的 i
+    else:
+        break
+i = left  # 找到目标 i</code></pre>
+<h2 id="处理数组边界">处理数组边界</h2>
+<p>注意，代码中会访问 <code>B[j - 1]</code>、<code>A[i - 1]</code>、<code>A[i]</code> 和 <code>B[j]</code>。</p>
+<p>对于 <code>A[i - 1]</code> 和 <code>B[j - 1]</code>，需要考虑 <code>i = 0</code> 或 <code>j = 0</code> 的情况。这表示对应数组左边没有取任何元素。</p>
+<p>对于 <code>A[i]</code> 和 <code>B[j]</code>，需要考虑 <code>i = len(A)</code> 或 <code>j = len(B)</code> 的情况。这表示对应数组中的元素已经全部取完。</p>
+<p>当左边没有取元素时，可以把对应的左侧值看作比任何数都小。这样它不会导致我们误以为从该数组取少了。</p>
+<p>当数组中的元素全部取完时，可以把对应的右侧值看作比任何数都大。这样它不会导致我们误以为从该数组取多了。</p>
+<p>对应的边界值可以这样表示：</p>
+<pre class="python"><code>A_left = A[i - 1] if i &gt; 0 else float(&quot;-inf&quot;)
+A_right = A[i] if i &lt; len(A) else float(&quot;inf&quot;)
+
+B_left = B[j - 1] if j &gt; 0 else float(&quot;-inf&quot;)
+B_right = B[j] if j &lt; len(B) else float(&quot;inf&quot;)</code></pre>
+<h2 id="完整代码">完整代码</h2>
+<p>把边界处理放进二分查找，完整代码如下：</p>
+<pre class="python"><code>def findKth(A: list[int], B: list[int], k: int) -&gt; int:
+    # 1. 确定 i 的搜索范围
+    left = max(0, k - len(B))
+    right = min(k, len(A))
+
+    # 2. 二分查找合法的切分位置
+    while left &lt;= right:
+        i = (left + right) // 2
+        j = k - i
+
+        # 处理四种边界
+        A_left = A[i - 1] if i &gt; 0 else float(&quot;-inf&quot;)
+        A_right = A[i] if i &lt; len(A) else float(&quot;inf&quot;)
+
+        B_left = B[j - 1] if j &gt; 0 else float(&quot;-inf&quot;)
+        B_right = B[j] if j &lt; len(B) else float(&quot;inf&quot;)
+
+        # i 太小，需要从 A 多取一些
+        if B_left &gt; A_right:
+            left = i + 1
+
+        # i 太大，需要从 A 少取一些
+        elif A_left &gt; B_right:
+            right = i - 1
+
+        # 找到了合法切分
+        else:
+            return max(A_left, B_left)</code></pre>
+<h2 id="回到中位数">回到中位数</h2>
+<p>有了这个方法，相信解决原题就是轻而易举了。对于原题，合并后总元素个数为 <code>m + n</code>：总数为奇数时，中位数是第 <code>(m + n + 1) // 2</code> 小的元素；总数为偶数时，中位数是第 <code>(m + n) // 2</code> 小和第 <code>(m + n) // 2 + 1</code> 小的元素的平均值。</p>
+
+          </div>
+        </article>
+      </main>
+      <footer class="site-footer"><span>© Refiget</span></footer>
+    </div>
+  </body>
+</html>

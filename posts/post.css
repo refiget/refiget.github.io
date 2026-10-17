@@ -1,0 +1,19 @@
+.article-content { width: min(100%, 790px); margin: 0 auto; padding: 37px 0 60px; }
+.back-link { display: inline-block; margin-bottom: 26px; color: #76563f; font-size: .85rem; text-decoration: none; }
+.article-category { margin-bottom: 7px; color: #8a715c; font-size: .82rem; }
+.article-content h1 { margin-bottom: 27px; color: #39342f; font-size: clamp(1.8rem, 5vw, 2.45rem); line-height: 1.4; }
+.article-body { color: #3d3934; font-size: 1rem; line-height: 1.95; overflow-wrap: anywhere; }
+.article-body h2 { margin: 2.5rem 0 1rem; font-size: 1.55rem; }
+.article-body h3 { margin: 2rem 0 .8rem; font-size: 1.2rem; }
+.article-body p, .article-body ul, .article-body ol, .article-body pre, .article-body blockquote { margin-bottom: 1.25rem; }
+.article-body blockquote { padding: .8rem 1.2rem; border-left: 3px solid #a88a70; background: #f0ede7; color: #5c554d; }
+.article-body blockquote > :last-child { margin-bottom: 0; }
+.article-body pre { overflow-x: auto; padding: 1rem 1.15rem; border: 1px solid #ddd7ce; background: #f1eee8; font-size: .86rem; line-height: 1.7; }
+.article-body code { color: #714c35; }
+.article-body pre code { color: #39342f; }
+.article-body li { margin-bottom: .4rem; }
+@media (max-width: 767.98px) {
+  .article-content { padding-top: 28px; }
+  .article-body { font-size: .95rem; }
+  .article-body h2 { font-size: 1.35rem; }
+}
