@@ -1,6 +1,7 @@
 .article-content { width: min(100%, 790px); margin: 0 auto; padding: 37px 0 60px; }
 .back-link { display: inline-block; margin-bottom: 26px; color: #76563f; font-size: .85rem; text-decoration: none; }
 .article-category { margin-bottom: 7px; color: #8a715c; font-size: .82rem; }
+.article-date { display: block; margin: -17px 0 27px; color: #928a80; font-size: .82rem; }
 .article-content h1 { margin-bottom: 27px; color: #39342f; font-size: clamp(1.8rem, 5vw, 2.45rem); line-height: 1.4; }
 .article-body { color: #3d3934; font-size: 1rem; line-height: 1.95; overflow-wrap: anywhere; }
 .article-body h2 { margin: 2.5rem 0 1rem; font-size: 1.55rem; }

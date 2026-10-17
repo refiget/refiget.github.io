@@ -7,7 +7,7 @@
     <meta name="description" content="Refiget 的个人主页。" />
     <title>Refiget</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.8/dist/journal/bootstrap.min.css" />
-    <link rel="stylesheet" href="styles.css?v=2" />
+    <link rel="stylesheet" href="assets/css/site.css?v=3" />
   </head>
   <body>
     <div class="container blog-shell d-flex flex-column min-vh-100">
@@ -20,6 +20,7 @@
         <nav class="site-nav" aria-label="主导航">
           <a class="current" href="index.html">首页</a>
           <a href="#articles">文章</a>
+          <a href="schedule.html">日程</a>
           <a href="#categories">分类</a>
           <a href="#archives">归档</a>
           <a href="#about">关于</a>
@@ -36,11 +37,20 @@
           <article class="post-preview" id="category-algorithms">
             <p class="post-category">算法</p>
             <h2><a href="posts/4MedianOfTwoSortedArrays.html">4. Median of Two Sorted Arrays</a></h2>
+            <time class="post-date" datetime="2026-10-17">2026年10月17日</time>
             <p>将问题转化为查找第 k 小的元素，通过二分调整两个有序数组的切分位置，并处理边界情况。</p>
             <a class="read-more" href="posts/4MedianOfTwoSortedArrays.html">阅读全文 <span aria-hidden="true">→</span></a>
           </article>
         </main>
         <aside class="col-lg-4 col-md-4 sidebar">
+          <section class="card sidebar-card" id="recent-schedule">
+            <div class="card-header">最近日程</div>
+            <div class="card-body">
+              <div class="schedule-list" data-schedule="recent"></div>
+              <p class="schedule-empty" data-schedule-empty="recent">还没有记录。</p>
+              <a class="category-link schedule-more" href="schedule.html">查看日程与历史归档 <span>→</span></a>
+            </div>
+          </section>
           <section class="card sidebar-card" id="categories">
             <div class="card-header">分类</div>
             <div class="card-body">
@@ -65,5 +75,6 @@
         <span>© Refiget</span>
       </footer>
     </div>
+    <script src="assets/js/schedule.js"></script>
   </body>
 </html>

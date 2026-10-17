@@ -25,6 +25,7 @@ body { background: #f7f5f1; }
 .section-heading h1 { color: #39342f; font-size: 1.35rem; }
 .post-preview { padding: 25px 0 30px; border-bottom: 1px solid #ded8d0; }
 .post-category { margin: 0 0 8px; color: #8a715c; font-size: .78rem; }
+.post-date { display: block; margin: -4px 0 10px; color: #928a80; font-size: .8rem; }
 .post-preview h2 { margin: 0 0 10px; font-size: 1.35rem; font-weight: 500; }
 .post-preview h2 a { color: #39342f; text-decoration: none; }
 .post-preview h2 a:hover { color: #76563f; }
@@ -44,6 +45,22 @@ body { background: #f7f5f1; }
 .sidebar-card { border-color: #ddd7ce; border-radius: 0; background: transparent; box-shadow: none; }
 .sidebar-card .card-header { padding: 10px 14px; border-bottom-color: #ddd7ce; border-radius: 0; background: #f0ede7; color: #49433d; font-size: .95rem; }
 .sidebar-card .card-body { min-height: 47px; }
+.schedule-list { padding: 0; margin: 0; }
+.schedule-list .schedule-entry + .schedule-entry { margin-top: 13px; padding-top: 12px; border-top: 1px solid #e3ded6; }
+.schedule-list time { display: block; color: #928a80; font-size: .76rem; }
+.schedule-list strong { display: block; margin-top: 3px; color: #49433d; font-size: .88rem; font-weight: 500; }
+.schedule-list p { margin: 3px 0 0; color: #6e6962; font-size: .82rem; line-height: 1.6; }
+.schedule-empty { margin: 0 0 12px; color: #928a80; font-size: .85rem; }
+.schedule-more { margin-top: 12px; }
+.schedule-entry { padding: 20px 0; border-bottom: 1px solid #ded8d0; }
+.schedule-entry time { color: #928a80; font-size: .8rem; }
+.schedule-entry h2 { margin: 5px 0; font-size: 1.1rem; font-weight: 500; }
+.schedule-category { display: block; margin: -2px 0 4px; color: #8a715c; font-size: .78rem; }
+.schedule-entry p { margin: 0; color: #6e6962; font-size: .9rem; line-height: 1.8; }
+.schedule-group { margin-top: 30px; }
+.schedule-page { padding: 38px 0 56px; }
+.schedule-list-page .schedule-entry { padding: 18px 0; }
+.schedule-empty-page { margin: 20px 0; color: #928a80; font-size: .9rem; }
 .site-footer { min-height: 52px; border-top: 1px solid #d9d3ca; color: #888178; font-size: .8rem; }
 
 @media (max-width: 767.98px) {
