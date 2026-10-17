@@ -61,6 +61,10 @@ body { background: #f7f5f1; }
 .schedule-page { padding: 38px 0 56px; }
 .schedule-list-page .schedule-entry { padding: 18px 0; }
 .schedule-empty-page { margin: 20px 0; color: #928a80; font-size: .9rem; }
+.archive-year { border-bottom: 1px solid #ded8d0; }
+.archive-year-toggle { width: 100%; padding: 14px 0; border: 0; background: transparent; color: #49433d; font-size: 1rem; text-align: left; }
+.archive-year-toggle::after { float: right; color: #928a80; content: "+"; }
+.archive-year-toggle[aria-expanded="true"]::after { content: "−"; }
 .site-footer { min-height: 52px; border-top: 1px solid #d9d3ca; color: #888178; font-size: .8rem; }
 
 @media (max-width: 767.98px) {
