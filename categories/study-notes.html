@@ -3,7 +3,34 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title></title>
+    <meta name="theme-color" content="#f7f5f1" />
+    <title>学习笔记 — Refiget</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.8/dist/journal/bootstrap.min.css" />
+    <link rel="stylesheet" href="../assets/css/site.css?v=4" />
   </head>
-  <body></body>
+  <body>
+    <div class="container blog-shell d-flex flex-column min-vh-100">
+      <header class="site-header">
+        <div class="masthead"><div><a class="site-title" href="../index.html">Refiget</a></div></div>
+        <nav class="site-nav" aria-label="主导航">
+          <a href="../index.html">首页</a>
+          <a href="../index.html#articles">文章</a>
+          <a href="../schedule.html">日程</a>
+          <a class="current" href="study-notes.html">分类</a>
+          <a href="../index.html#archives">归档</a>
+          <a href="../index.html#about">关于</a>
+        </nav>
+      </header>
+      <main class="flex-grow-1" id="articles">
+        <div class="section-heading"><div><p class="section-kicker mb-1">CATEGORY</p><h1 class="h3 mb-0">学习笔记</h1></div></div>
+        <article class="post-preview">
+          <time class="post-date" datetime="2026-10-19">2026年10月19日</time>
+          <h2><a href="../posts/24-Shortest-Paths.html">24. Shortest Paths</a></h2>
+          <p>从图的深度优先搜索出发，整理广度优先搜索、优先队列、Dijkstra 与 A* 的思路。</p>
+          <a class="read-more" href="../posts/24-Shortest-Paths.html">阅读全文 <span aria-hidden="true">→</span></a>
+        </article>
+      </main>
+      <footer class="site-footer"><span>© Refiget</span></footer>
+    </div>
+  </body>
 </html>

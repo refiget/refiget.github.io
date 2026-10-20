@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f7f5f1" />
+    <title>24. Shortest Paths — Refiget</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.8/dist/journal/bootstrap.min.css" />
+    <link rel="stylesheet" href="../assets/css/site.css?v=4" />
+    <link rel="stylesheet" href="../assets/css/post.css" />
+  </head>
+  <body>
+    <div class="container blog-shell d-flex flex-column min-vh-100">
+      <header class="site-header">
+        <div class="masthead"><div><a class="site-title" href="../index.html">Refiget</a></div></div>
+        <nav class="site-nav" aria-label="主导航">
+          <a href="../index.html">首页</a>
+          <a class="current" href="../index.html#articles">文章</a>
+          <a href="../schedule.html">日程</a>
+          <a href="../index.html#categories">分类</a>
+          <a href="../index.html#archives">归档</a>
+          <a href="../index.html#about">关于</a>
+        </nav>
+      </header>
+      <main class="article-content">
+        <a class="back-link" href="../index.html#articles">← 返回文章列表</a>
+        <article>
+          <p class="article-category">学习笔记</p>
+          <h1>24. Shortest Paths</h1>
+          <time class="article-date" datetime="2026-10-19">发布时间：2026年10月19日</time>
+          <div class="article-body">
+<p>总的来说, 我们需要解决一个问题: <strong>最短路径</strong>. 这个问题可抽象到图论上的两个节点的最短路径问题, 我们略过一些图论的基本结论,只在必要的时候提及它们.</p>
+<p>直接解决这个问题还是太复杂了, 就像我们做算法题一样, 先不考虑时间复杂度, 直接暴力枚举, 其中总有我们需要的答案.</p>
+<p>假设我们有对图论最基本的认知: graph, vertex and edge.</p>
+<p>对于给定的 graph 和 vertex <code>s</code>, 如何找到 <code>s</code> 通往其他 vertex 的 path 呢?</p>
+<p>一个很自然的想法就是从 <code>s</code> 出发, 然后前往 <code>s</code> 的邻点, 然后从 <code>s</code> 的邻点再出发, 前往 <code>s</code> 邻点的邻点. pseudocode 如下:</p>
+<pre><code class="language-pseudocode">fun find_path(s):
+    s.isVisited = true;
+    for neighbor in s.neighbor():
+        if !neighbor.isVisited():
+            find_path(neighbor);</code></pre>
+<p>当然现在还没有讨论如何记录我们寻找的 path, 现在暂且视为访问了,就是记录了吧.</p>
+<p>注意到,按这种方式搜索,我们实际用到的边的数量总是比节点数量少一.基于一个图论的基本定理,这种搜索方式经过的节点和边,实际上形成了一棵树.</p>
+<p>基于树的良好的性质:一个节点到另一个节点的路径唯一.我们只需与记录我们的搜索过程,很容易恢复为我们需要的路径.</p>
+<p>我们选择用 edgeTo int[] 来记录. 当然按照课程的思路,我们还是采取简化的思路,用 index 作为 node.那 edgeTo[v] = w 的含义就是可以从 w 出发前往 v.</p>
+<p>补充后的 pseudocode 如下:</p>
+<pre><code class="language-pseudocode">fun find_path(s):
+    s.isVisited = true;
+    for w in s.neighbor():
+        if !w.isVisited:
+            edgeTo[w] = s
+            find_path(w)</code></pre>
+<p>我们实际上已经完成了基本的 <code>DFS</code>.</p>
+<h2>BFS: 寻找无权图的最短路径</h2>
+<p>接下来我们讨论如何找到最小的问题. 假设我们需要找到 <code>s</code> 到 <code>v</code> 的最短的 path. 很自然的. 它可以归结于 <code>s</code> 的邻点到 <code>v</code> 的最短 path 问题. 最后基于 tree 的 path 唯一性, 我们就可以找到这条路径.</p>
+<p>因为 edge 没有权重, 所以两个点之间我们可以看成单位距离. 我们的搜索策略就是沿着一个同心圆, 往同心圆半径扩大的方向搜索. 什么意思, 就是从 <code>s</code> 出发, 搜索离 <code>s</code> 距离单位距离为 1 的点. 然后再从 <code>s</code> 出发, 搜索离 <code>s</code> 距离单位距离为 2 的点. 按这种搜索方式, 我们总是可以找到的 <code>s</code> 到 <code>v</code> 的最短路径.</p>
+<p>既然我们讨论的是最短的 path, 我们自然需要一个计数器, 来记录路径长度. 这里我们用 <code>distTo int[]</code>, 如 <code>distTo[v] =1</code> 就表示 <code>s</code> 到 <code>v</code> 的长度为 1.</p>
+<p>然后需要开始区分&quot;发现&quot;与&quot;探索&quot;. 可以把 <code>s.neighbor()</code> 视为发现, 我们在这一步这是找到了可以探索的节点, 实际上还没有探索. <code>edgeTo[w] = s</code> 我们记录了如果到达后, 可以理解为探索完成了. 所以现在的逻辑就是:</p>
+<ol>
+<li>先找出待探索名单 —— 发现</li>
+<li>探索名单</li>
+</ol>
+<p>这时候出现了一个问题, 就是我们只探索了名单中的其中一个, 但是我们需要 <code>find_path(w)</code>. 也就是按我们刚讨论的&quot;同心圆&quot;式的搜索方式, 我们在搜索距离为 <code>k</code> 的节点的时候, 确更新了距离为 <code>k+1</code> 的节点名单. 也就是我们需要一个容器, 用来存放探索名单, 先放进的去, 需要先探索. (FIFO) 很自然地我们就需要一个 <strong>queue</strong>.</p>
+<p>也就是我们的元素需要从 queue 里面取出来, 然后发现的内容需要放入 queue.</p>
+<p>我们写出 pseudocode:</p>
+<pre><code class="language-pseudocode">fun find_shortest_path(s):
+
+    fringe = new queue()
+    s.isVisited = true
+    fringe.add(s)
+
+    while fringe !empty:
+        v = fringe.pop()
+
+        for w in v.neighbor():
+            if !w.isVisited:
+                edgeTo[v] = w
+                distTo[w] = distTo[v] + 1
+                w.isVisited = true
+                fringe.add(true)</code></pre>
+<h2>Priority Queue 与 Dijkstra</h2>
+<p>接下来我们讨论, 如果 edge 存在权重(正), 那这个方法可以处理么? 假设 edge <code>E(s,v)</code> 的权重为 3, 我们可以理解为 <code>s</code> 和 <code>v</code> 中间存在两个虚拟节点(产生 3 条单位 edge). 然后我们的算法就可以生效了. 但是这会出现一个问题: 就是如果权重的极差非常大, 那我们用来记录的 <code>list</code> 就会非常大. 比如 <code>E(s, v)</code> 权重 为 1000000, 难道我们需要这么多虚拟节点和额外进行这么多操作么? 这当然不现实. 还有一个问题就是: <code>s</code> 到 <code>t</code> 有两条路, 我们需要短的那一条. 假设中间节点都只有一个, 那我们如何控制探索的顺序, 保证可以找到最短的路径呢?</p>
+<p>接下来我们引入一种的新的数据结构, 可以很好的处理我们的探索顺序问题. 一个非常自然的写想法就是给数据加上优先级,优先级高的优先探索. 这需要我们的数据可以比较, 因为我们需要找出优先级最高的元素. 这就是接下来我们要讨论的 <strong>Priority Queue</strong>. 可以把它理解为一个盒子, 我们可以放入很多东西, 但是取或者查看的时候只能拿出&quot;最小&quot;的元素.</p>
+<p>实现这个 ADT, 一个比较好的方式就是使用 <strong>mini heap</strong>. 它是一种特殊的 BStree. 一个 mini heap 满足一下条件:</p>
+<ol>
+<li>每个 parent 都小于等于其 child(children)</li>
+<li>叶子的缺失只能出现在底部.</li>
+</ol>
+<p>我们需要实现的方法:</p>
+<ol>
+<li><code>add</code> 添加一个元素</li>
+<li><code>get</code> 查看最小的元素</li>
+<li><code>remove</code> 删除最小的元素然后返回.</li>
+</ol>
+<p>我们整体的探索思路就变成:</p>
+<ol>
+<li>初始化一个 PQ, 源点 <code>s</code> priority 设置为 0, 其余的点设置为 <code>inf</code>(也就是初始都是不可达的状态. distTo 也需要初始化.)</li>
+<li>探索 PQ, 然后 relax 当前探索 node 的边.</li>
+</ol>
+<p>relax 是啥?  就是基于当前最佳的距离,更新需要探索的名单的权重.</p>
+<p>整体的思路就是: 从 <code>s</code> 出发, 先去近的邻点; 然后从邻点出发, 再去最近的邻点... 最后我们的探索路线会形成一棵 SPT, 就是 源点到各个节点最短 path 做成的 tree.</p>
+<p>这种算法就是经典的 <strong>Dijkstra&#x27;s Algorithm</strong>, pseudocode 如下:</p>
+<pre><code class="language-pseudocode">fun find_shortest_path_by_dijkstra(s):
+    pq = new PQ()
+    pq.add(s, 0)
+    pd.add(others, inf)
+
+    while pq !empty:
+        v = pq.pop()
+        relax(v)
+
+    fun relax(v):
+        for w in v.neighbor():
+            if w.isVisited:
+                return
+            if distTo[v] + weight(v, w) &lt;= distTo[w]:
+                distTo[w] = distTo[v] + weight[v, w]
+                edgeTo[w] = v
+                pq.setPriority(w, distTo[w])
+</code></pre>
+<h2>Dijkstra 的限制与 A*</h2>
+<p>接下来我们讨论这个算法的一些限制. 首先它没办法处理负数权重的边. 我们更新时间priority的策略就是基于一个更优的路径.也就是我们探索到某个点的时候.从源点到这个点的最短路径以及被找到了.如果含有负权重的 edge, 我们想象一个环形图:从而<code>s</code>出发到<code>t</code>沿着环路,然后<code>w</code>到另一边每经过的邻点是负权重的.这种情况下,从另外一边额外的探索,反而会更新到<code>w</code>的最短路径,它完全破坏了算法.</p>
+<p>其次是, 我们如果只需要到特定节点的最短路径,我们也不得不搜索中间的路径.这一点比较容易改进, 我们可以估计这个最短距离. 也就是我们直接从估计值开始搜索, 这就是 <strong>A</strong>* 算法的思路.</p>
+          </div>
+        </article>
+      </main>
+      <footer class="site-footer"><span>© Refiget</span></footer>
+    </div>
+  </body>
+</html>
