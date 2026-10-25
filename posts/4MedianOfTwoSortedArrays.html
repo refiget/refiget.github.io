@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.8/dist/journal/bootstrap.min.css" />
     <link rel="stylesheet" href="../assets/css/site.css?v=4" />
     <link rel="stylesheet" href="../assets/css/post.css" />
+    <link rel="stylesheet" href="../assets/vendor/prism/prism.min.css" />
   </head>
   <body>
     <div class="container blog-shell d-flex flex-column min-vh-100">
@@ -58,7 +59,7 @@
 <h2 id="用二分查找调整切分位置">用二分查找调整切分位置</h2>
 <p>接下来我们讨论如何调整 <code>i</code> 的选择。</p>
 <p>相信很多人入门编程时都写过猜数字游戏：猜 <code>0</code> 到 <code>100</code> 之间的整数。猜对了就胜利；猜大了就返回“too large”，反之则返回“too small”。一个好的猜法是先猜 <code>50</code>，然后根据回答，在 <code>0</code> 到 <code>49</code> 或者 <code>51</code> 到 <code>100</code> 之间继续猜。这里可以抽象出这样一个思路：</p>
-<pre class="python"><code>求解区间：[0, 100]
+<pre class="language-python"><code class="language-python">求解区间：[0, 100]
 if answer == secret_number:
     print(&quot;WIN!&quot;)
 elif answer &gt; secret_number:
@@ -75,7 +76,7 @@ right = min(k, m)</code></pre>
 <p>现在我们找到了合法的切分位置。第 <code>k</code> 小的元素就是 <code>A[i - 1]</code> 和 <code>B[j - 1]</code> 中较大的一个。</p>
 <h3 id="根据切分位置调整搜索范围">根据切分位置调整搜索范围</h3>
 <p>现在整理代码：</p>
-<pre class="python"><code># 1. 设置搜索范围
+<pre class="language-python"><code class="language-python"># 1. 设置搜索范围
 left = max(0, k - len(B))
 right = min(k, len(A))
 
@@ -101,14 +102,14 @@ i = left  # 找到目标 i</code></pre>
 <p>当左边没有取元素时，可以把对应的左侧值看作比任何数都小。这样它不会导致我们误以为从该数组取少了。</p>
 <p>当数组中的元素全部取完时，可以把对应的右侧值看作比任何数都大。这样它不会导致我们误以为从该数组取多了。</p>
 <p>对应的边界值可以这样表示：</p>
-<pre class="python"><code>A_left = A[i - 1] if i &gt; 0 else float(&quot;-inf&quot;)
+<pre class="language-python"><code class="language-python">A_left = A[i - 1] if i &gt; 0 else float(&quot;-inf&quot;)
 A_right = A[i] if i &lt; len(A) else float(&quot;inf&quot;)
 
 B_left = B[j - 1] if j &gt; 0 else float(&quot;-inf&quot;)
 B_right = B[j] if j &lt; len(B) else float(&quot;inf&quot;)</code></pre>
 <h2 id="完整代码">完整代码</h2>
 <p>把边界处理放进二分查找，完整代码如下：</p>
-<pre class="python"><code>def findKth(A: list[int], B: list[int], k: int) -&gt; int:
+<pre class="language-python"><code class="language-python">def findKth(A: list[int], B: list[int], k: int) -&gt; int:
     # 1. 确定 i 的搜索范围
     left = max(0, k - len(B))
     right = min(k, len(A))
@@ -144,5 +145,9 @@ B_right = B[j] if j &lt; len(B) else float(&quot;inf&quot;)</code></pre>
       </main>
       <footer class="site-footer"><span>© Refiget</span></footer>
     </div>
+    <script src="../assets/vendor/prism/prism-core.min.js"></script>
+    <script src="../assets/vendor/prism/prism-clike.min.js"></script>
+    <script src="../assets/vendor/prism/prism-java.min.js"></script>
+    <script src="../assets/vendor/prism/prism-python.min.js"></script>
   </body>
 </html>

@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.8/dist/journal/bootstrap.min.css" />
     <link rel="stylesheet" href="../assets/css/site.css?v=4" />
     <link rel="stylesheet" href="../assets/css/post.css" />
+    <link rel="stylesheet" href="../assets/vendor/prism/prism.min.css" />
   </head>
   <body>
     <div class="container blog-shell d-flex flex-column min-vh-100">
@@ -34,7 +35,7 @@
             <p>也就是为啥不可以直接 <code>Collection&lt;Node&gt;[] result = new Collection&lt;Node&gt; [10]</code>。 直接建立一个带有初始化长度的数组呢？ 而是需要 <code>new Collection[10]</code>。</p>
             <p>这是因为 static check 会检查合法性， 但是实际上 Collection<Node> 的类型会被擦除， 也就是无法确定数组内部放的一定是 <code>Collection&lt;Node&gt;</code>， 因为它和 <code>Collection&lt;String&gt;</code> 一样， 在运行的时候会被视为一个 class。</p>
             <p>代码最难的部分就是 iterator 的实现，我们需要维护两个状态，一个是所在的 bucket， 一个是所在位置的自带 iterator 实现的状态。总结它的实现就是：</p>
-            <pre class="java"><code>public boolean hasNext() {
+            <pre class="language-java"><code class="language-java">public boolean hasNext() {
                 while (位置索引合法) {
                     检查当前位置的 iterator hasNext()
                     true:
@@ -57,7 +58,7 @@
             <p>这个是简化版本， 内部的状态不需要 <code>iterator</code> 维护， 而是直接用 index 维护即可。 内部的 index 在合法访问内， 这说明有下一个元素。</p>
             <p><code>hasNext()</code> 检查的就是 index 长度是否大于零(非空)， 是否在合法区间： <code>index &gt; 0 &amp;&amp; index &lt; vec[i].length</code></p>
             <p>更新 <code>iterator</code> 就是 index 重新初始化为 0。</p>
-            <pre class="java"><code>public class Vector2D:
+            <pre class="language-java"><code class="language-java">public class Vector2D:
             
             private int row = 0;
             private int col = 0;
@@ -100,5 +101,9 @@
       </main>
       <footer class="site-footer"><span>© Refiget</span></footer>
     </div>
+    <script src="../assets/vendor/prism/prism-core.min.js"></script>
+    <script src="../assets/vendor/prism/prism-clike.min.js"></script>
+    <script src="../assets/vendor/prism/prism-java.min.js"></script>
+    <script src="../assets/vendor/prism/prism-python.min.js"></script>
   </body>
 </html>
