@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f7f5f1" />
+    <title>3. length Of Longest Substring — Refiget</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.8/dist/journal/bootstrap.min.css" />
+    <link rel="stylesheet" href="../assets/css/site.css?v=4" />
+    <link rel="stylesheet" href="../assets/css/post.css" />
+    <link rel="stylesheet" href="../assets/vendor/prism/prism.min.css" />
+  </head>
+  <body>
+    <div class="container blog-shell d-flex flex-column min-vh-100">
+      <header class="site-header">
+        <div class="masthead"><div><a class="site-title" href="../index.html">Refiget</a></div></div>
+        <nav class="site-nav" aria-label="主导航">
+          <a href="../index.html">首页</a>
+          <a class="current" href="../index.html#articles">文章</a>
+          <a href="../schedule.html">日程</a>
+          <a href="../index.html#categories">分类</a>
+          <a href="../index.html#archives">归档</a>
+          <a href="../index.html#about">关于</a>
+        </nav>
+      </header>
+      <main class="article-content">
+        <a class="back-link" href="../index.html#articles">← 返回文章列表</a>
+        <article>
+          <p class="article-category">算法</p>
+          <h1>3. length Of Longest Substring</h1>
+          <time class="article-date" datetime="2026-10-25">发布时间：2026年10月25日</time>
+          <div class="article-body">
+<p>好久之前写的算法了，看到题目的时候发现自己没有思路，果断回顾。</p>
+<p>这题我记得一开始我的思路就是，一个滑动窗口沿着字符串滑动，然后窗口是是递增的。我们返回最后的窗口长度即可。当然这个想法肯定是错误的，因为在一个大的窗口内，我们无法判断 subtring 的合法性。</p>
+<p>所有肯定是要一个动态的窗口，然后每一轮都更新最长的窗口。这里我们用两个指针实现，都是从零开始。现在问题是如何移动的问题。</p>
+<p>假设我们固定 left，移动 right。这个是最自然的想法。在完成一次移动前，我们需要判断 <code>right+1</code> 是否合法，<code>s[right+1]</code> 是否包含在 <code>s[left, right+1]</code> 中。也就是：</p>
+<pre class="language-python"><code class="language-python">if right+1 &lt; len(s) and s[right+1] not in s[left, right+1]:
+    right += 1
+    更新长度</code></pre>
+<p>终止的条件也很自然，就是 right 越界了 <code>right &lt; len(s)</code>。</p>
+<p>那遇到非法字符了呢？<code>s[right+1]</code> 在 slice <code>s[left, right+1]</code> 内部。也就是内部有个字符和新加入的字符重复了。最自然的想法就是移动 <code>left</code> 到这个内部的重复字符下一个，则新加入的字符不会重复。注意这个时候 <code>right</code> 还没有更新，也就是 <code>left</code> 先更新。再看是否重复。</p>
+<p>当然我们需要考虑 <code>left</code> 是否存在越界问题。首先它们都是从零开始的，我们的主线也是更新 <code>right</code>，只有出现重复的元素，才更新 <code>left</code>，也就是没有越界分享。</p>
+<p>合并就是：</p>
+<pre class="language-python"><code class="language-python">def length_of_longest_subtring(s: str) -&gt; int:
+    if not s:
+        return 0
+
+    max_length = 1
+    left = right = 0
+    while right + 1 &lt; len(s):
+        if and s[right+1] not in s[left: right+1]:
+            right += 1
+            max_length = max(max_length, right+1-left)
+        else:
+            left += 1
+    return max_length</code></pre>
+<p>当然我们需要总结一下 <code>while</code> 的行为，自己总是遗忘。</p>
+<p>给定一个 <code>str s</code>，<code>while i &lt; len(s)</code> 就是进行 <code>len(s)</code> 次操作，直到 <code>index</code> 后的越界。（假设内部 <code>i</code> 每一轮加一。）</p>
+<p><code>while i + k &lt; len(s) + l</code>，这里加入两个参数。左边的 <code>k</code> 本身就会防止越界行为，如果是 <code>while i + 1 &lt; len(s)</code>，这说明每次的访问都是合法的。</p>
+          </div>
+        </article>
+      </main>
+      <footer class="site-footer"><span>© Refiget</span></footer>
+    </div>
+    <script src="../assets/vendor/prism/prism-core.min.js"></script>
+    <script src="../assets/vendor/prism/prism-clike.min.js"></script>
+    <script src="../assets/vendor/prism/prism-java.min.js"></script>
+    <script src="../assets/vendor/prism/prism-python.min.js"></script>
+  </body>
+</html>
