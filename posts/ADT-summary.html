@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f7f5f1" />
+    <title>ADT Summary — Refiget</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.8/dist/journal/bootstrap.min.css" />
+    <link rel="stylesheet" href="../assets/css/site.css?v=4" />
+    <link rel="stylesheet" href="../assets/css/post.css" />
+    <link rel="stylesheet" href="../assets/vendor/prism/prism.min.css" />
+  </head>
+  <body>
+    <div class="container blog-shell d-flex flex-column min-vh-100">
+      <header class="site-header">
+        <div class="masthead"><div><a class="site-title" href="../index.html">Refiget</a></div></div>
+        <nav class="site-nav" aria-label="主导航">
+          <a href="../index.html">首页</a>
+          <a class="current" href="../index.html#articles">文章</a>
+          <a href="../schedule.html">日程</a>
+          <a href="../index.html#categories">分类</a>
+          <a href="../index.html#archives">归档</a>
+          <a href="../index.html#about">关于</a>
+        </nav>
+      </header>
+      <main class="article-content">
+        <a class="back-link" href="../index.html#articles">← 返回文章列表</a>
+        <article>
+          <p class="article-category">学习笔记</p>
+          <h1>ADT Summary</h1>
+          <time class="article-date" datetime="2026-10-27">发布时间：2026年10月27日</time>
+          <div class="article-body">
+<p>cs61b 的前半部份，数据结构也接近尾声了，这里我就对我学过的内容，做一些总结和回顾吧。</p>
+<p>首先课程的一个核心的想法就是，我们使用的数据结构是 <strong>ADT</strong>，即抽象的。我们 user，不用关注其特性，我们只关注它的行为是否符合预期。比如有一个数据结构，只要可以实现 LIFO，我们就可以将其视为 <strong>stack</strong>，而不需要在意背后的实现逻辑。</p>
+<p>我们第一个学的 ADT 是 <strong>List</strong>，开始我们的要求也非常简单：</p>
+<ul>
+<li><code>addFirst(x)</code>：在开头插入元素。</li>
+<li><code>addLast(x)</code>：在末尾插入元素。</li>
+<li><code>insert(i, x)</code>：在指定位置插入元素。</li>
+<li><code>getFirst()</code>：获取第一个元素。</li>
+<li><code>getLast()</code>：获取最后一个元素。</li>
+<li><code>get(i)</code>：获取指定位置的元素。</li>
+<li><code>removeFirst()</code>：删除并返回第一个元素。</li>
+<li><code>removeLast()</code>：删除并返回最后一个元素。</li>
+<li><code>size()</code>：返回元素数量。</li>
+</ul>
+<p>最自然的想法就是定义一个 <code>IntList</code>，其 <code>instance variables</code> 包含 <code>item</code> 和 <code>next</code>。其开始的节点就代表 <code>IntList</code> 整体。</p>
+<p>我们只能从它有且仅有的 <code>next</code> 属性构造所有剩下的方法，这里涉及对第一个元素的都是 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">O(1)</annotation></semantics></math> 的，涉及任一个或者最后一个节点的都是 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false" form="prefix">(</mo><mi>n</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">O(n)</annotation></semantics></math>。<code>size()</code>基于实现，牺牲空间就是 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">0(1)</annotation></semantics></math>，调用的时候计算就是 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false" form="prefix">(</mo><mi>n</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">O(n)</annotation></semantics></math>。</p>
+<p>接下来的升级就是将 <code>IntList</code> 封装起来，外部类 <code>SLList</code> 作为一个外部类保存 <code>first</code> 的 <code>ref</code>。内部 <code>IntList</code> 封装为 <code>IntNode</code> 作为节点。这样我们就不需要用一个节点代表 <code>IntList</code>，而是把它单独封装为一个类，虽然都是基于第一个元素。</p>
+<p>还有一个好处就是，<code>IntList</code> 版本，<code>addFirst</code> 等方法，因为面临的对象本身就是节点，也就是我们需要说明 xx 对象在 xx 对象的第一个位置插入 xx 元素，即 <code>l1.addFirst(3, l2)</code>。这显然不符合用户直觉呀，作为用户，我们期待的操作是应该是类似“往袋子里放一个东西”而非“袋子里的物品旁边放一个东西”。封装后，我们可以直接 <code>l1.addFisrt(3)</code>，直接使用，而不需要理解内部的作用机制(不需要理解放入袋子的物品是如何排布的)</p>
+<p>下一升级，我们加入了 <code>sentinel</code> 节点。它是为了解决，空节点的插入问题。如果没有它，我们还需要对 <code>first</code> 进行分类讨论。而 <code>sentinel</code> 的出现，引入了一个 <code>invariant</code>，first 可以用稳定的 <code>sentinel.next</code> 替代。而不用讨论 <code>first</code> 是否非空。</p>
+<p>接下来的升级，是为了进一步解决 <code>Last</code> 的操作问题，我们把它升级为了 <code>DLList</code> 双向的链表，同时拥有了两个 <code>invariant</code> 指代 <code>first</code> 和 <code>last</code>。但是这还是没有改善 <code>get</code> 和 <code>insert</code> 的效率。 为了改善 <code>get</code> 的效率，我们很自然就会想到 <code>Array</code> 的高效访问性能，但是问题是它是固定长度的，为了使其能够不断添加元素，一个非常自然的想法就是，元素放满了，就新建一个大的 <code>Array</code> 然后把原来的放入。这就是 <code>ALList</code> 由于我们是基于 <code>Array</code> 实现的，我们改善了 <code>get</code>，但是 <code>insert</code> 依旧 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false" form="prefix">(</mo><mi>n</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">O(n)</annotation></semantics></math> 的时间复杂度。</p>
+<p>然后开始讨论 <code>interface</code> 和 <code>polymorphism</code> 的问题。也就是作为一个上层的 ADT，我们只需要给出我们需要的方法即可，不论是 <code>SLList</code>，<code>DLList</code> 或者 <code>ALList</code>，它们都是 <code>List</code> 的具体实现。</p>
+<p>这部分在 review的时候，我才发现其精妙。</p>
+<p>原始数据结构 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>→</mo><annotation encoding="application/x-tex">\to</annotation></semantics></math> 封装 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>→</mo><annotation encoding="application/x-tex">\to</annotation></semantics></math> invariant <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>→</mo><annotation encoding="application/x-tex">\to</annotation></semantics></math> 统一行为 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>→</mo><annotation encoding="application/x-tex">\to</annotation></semantics></math> interface &amp; polymorphism。</p>
+<p>具体的课程知识点路径就是：</p>
+<p>原始 <code>intList</code> <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>→</mo><annotation encoding="application/x-tex">\to</annotation></semantics></math> 封装为 <code>SLList</code> <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>→</mo><annotation encoding="application/x-tex">\to</annotation></semantics></math> 添加 <code>sentinel</code> 引入 <code>invariant</code> <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>→</mo><annotation encoding="application/x-tex">\to</annotation></semantics></math> <code>DLList</code> <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>→</mo><annotation encoding="application/x-tex">\to</annotation></semantics></math> <code>ALList</code> <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>→</mo><annotation encoding="application/x-tex">\to</annotation></semantics></math> 多种实现，引入 <code>interface</code> 整合，<code>polymorphism</code> 理念。</p>
+<p>接下来学的 ADT 是 <strong>Disjont Union</strong>，这个 ADT 只关心哪些元素属于同一个集合，核心方法就是：</p>
+<ul>
+<li><code>connect()</code> 把两个元素加入同一个集合</li>
+<li><code>isConnect()</code> 判断两个元素是否属于同一个集合。</li>
+</ul>
+<p>这里有一个非常核心的想法，就是我们可以把元素映射为数字，所有很自然的想法就是我们可以用 <code>Array</code> 的 index 代表元素。当然这是为了简化讨论。</p>
+<p>假如一个 <code>Array</code> 的 index 就是元素，那很自然的想法就是对应的值就代表元素所属的集合。这个实现的特点就是 <code>isConnect</code> 性能非常好，所以叫 <strong>Quick Find</strong>。但是 <code>connect</code> 需要遍历修改，所以复杂度是 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false" form="prefix">(</mo><mi>n</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">O(n)</annotation></semantics></math>。复杂度的来源就是因为我们需要知道每一个元素所属的集合。所以我就升级这一部份，我们不需要知道每一个元素所属的集合，我们只需要确定它们来自同一个集合即可。这里也引出了 tree 的结构。也就是 <code>connect</code> 两个元素，我们只需要修改它们的父节点即可。所以 <code>Array</code> 只存储每个元素的父节点。如果两个节点来自同一个 <code>root</code>，则视为同一个集合。当然这里合并的规则还需要基于图论的知识，我们需要维护树的深度，小树需要挂载大树下面，才能保证复杂度。</p>
+<p>这里我们会用到一个辅助函数 <code>find()</code>，它用来找到一个元素的 <code>root</code>。我们发现，多次调用 <code>find()</code>，意味着我们需要重复找，即时我们已经查询过同一个节点了。所以我们的改进想法就是，缓存已经 <code>find()</code> 过的路径。也就是假设路径是 <code>A -&gt; B -&gt; C -&gt; D</code>，那我们就可以在探索的过程，顺便将 <code>A</code>，<code>B</code>，和 <code>C</code> 的父节点都设置为 <code>D</code>。</p>
+<p>当然我一开始学的时候非常疑惑，明明我们探索的顺序是 <code>ABCD</code>，前面的节点都没有接触到 <code>D</code>，为啥可以直接设置呢？但是没有很好地理解递归。这里递归实现的话，<code>find</code> 返回 <code>root</code> 节点。然后直接递归到 <code>C</code>，返回 <code>D</code>，内部调用的对象的 <code>root</code> 等于 <code>find()</code> 调用对象父节点即可。pseudocode 如下：</p>
+<pre class="language-java"><code class="language-java">private GraphNode find(GraphNode N) {
+
+    if (N.parent == null) {
+        return N;
+    }
+
+    N.parent = find(N.parent);
+    return N.parent;
+
+}</code></pre>
+<p>然后就是一个小的优化：合并 <code>size</code> 数组。</p>
+<p>整体的知识路线就是：</p>
+<p>Quick Find：<code>set = [0, 1, 2, 3]</code>，<code>set[i]</code> 表示元素 <code>i</code> 属于集合 <code>set[i]</code>。</p>
+<p>升级：Quick Union：<code>set = [0 , 1, 2 , 3]</code>，<code>size = [1 ,1 ,1 ,1]</code>。<code>set[i]</code> 表示元素 <code>i</code> 的父节点是 <code>set[i]</code> 为这个树包含元素个数。</p>
+<p>再升级：合并数组：<code>set = [0, 1, 2, 3]</code>。对于 <code>size[i]</code>，如果 <code>i</code> 大于零，则同上。如果 <code>i</code> 小于零，这说明是 <code>root</code>，代表树的 <code>size</code>。</p>
+<p>接下来我们学习的是 <strong>BST</strong>。</p>
+<p>为了构造它，我们需要保证对象是可以比较的，也就是我们需要实现比较方式。整体用对象实现，我们需要实现一下几个基本方法： 1. <code>get()</code> 2. <code>insert()</code> 3. <code>remove()</code></p>
+<p>这里 <code>get</code> 和 <code>insert</code> 是比较简单的，难的是 <code>remove</code>，它需要重新整理删除节点下面连接的东西。这里一个朴素的想法就是，我们删除一个节点，就是返回这个节点消失后的 subtree。这里需要推理的就是需要那一个节点作为新的 <code>root</code>。我们分类讨论：</p>
+<ol type="1">
+<li>没有 child，自然就是 null</li>
+<li>单个 child，就是 child</li>
+<li>两个 child，新的 root 需要大于左边的所有节点，小于等于右边的所有节点。很自然的就是选择左边最大的元素或者右边最小的。位置上看，就是左侧最右边或者右侧最左边。</li>
+</ol>
+<p>接下来的问题是树本身的性质导致的，就是如果每次添加的都是递增或者是递减的，BST 的性能会退化，为了解决这个问题。接下来升级为了 <strong>B tree</strong>，它的特点是将节点升级为了区间，不限制子节点的数量。然后核心操作是 <code>split</code>，然后有一种特殊的 B tree 是 <strong>2-3 tree</strong> 就是最多三个子节点的树。特别的，它 <code>split</code> 后和 <strong>LLRB</strong> 是一一对应的。而前者可以维护一棵 balance 的 BST。所以我们实现 <strong>LLRB</strong> 即可。</p>
+<p>LLRB 的实现非常复杂，需要维护 LLRB 的合法性。(通过 roate 和 flip)，无论如何，我们得到了一个良好的数据结构。</p>
+<p>然后就是 <strong>Hash Table</strong> 和 <strong>PQ</strong> 这两个刚学完，就不回顾了。</p>
+          </div>
+        </article>
+      </main>
+      <footer class="site-footer"><span>© Refiget</span></footer>
+    </div>
+    <script src="../assets/vendor/prism/prism-core.min.js"></script>
+    <script src="../assets/vendor/prism/prism-clike.min.js"></script>
+    <script src="../assets/vendor/prism/prism-java.min.js"></script>
+    <script src="../assets/vendor/prism/prism-python.min.js"></script>
+  </body>
+</html>
